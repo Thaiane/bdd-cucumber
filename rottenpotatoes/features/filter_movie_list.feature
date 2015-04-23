@@ -37,7 +37,7 @@ Scenario: restrict to movies with 'PG' or 'R' ratings
   And I should see "The Terminator"
   And I should see "When Harry Met Sally"
   And I should see "Amelie"
-  
+
   # enter step(s) to ensure that other movies are not visible
   And I should not see "Aladdin"
   And I should not see "2001: A Space Odyssey"
@@ -47,3 +47,6 @@ Scenario: restrict to movies with 'PG' or 'R' ratings
 
 Scenario: all ratings selected
   # see assignment
+  Given I check the following ratings: G, PG, PG-13, R
+  And I press "Refresh"
+  Then I should see all of the movies 

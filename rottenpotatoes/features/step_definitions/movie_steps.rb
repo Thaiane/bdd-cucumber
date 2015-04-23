@@ -32,14 +32,15 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   end
 end
 
-Then /I should see all the movies/ do |qtd|
+Then /I should see all of the movies/ do
   # Make sure that all the movies in the app are visible in the table
-  lines = page.all("table#movie tr").count
-
-  case qtd
-  when "none"
-    lines.should = "1"
-  when "all"
-    lines.should = "11"
+  Movie.all.each do |movie|
+    title = movie["title"]
+    
+    if page.respond_to? :should
+      page.should have_content(title)
+    else
+      assert page.has_content?(title)
+    end
   end
 end
