@@ -23,10 +23,23 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   # HINT: use String#split to split up the rating_list, then
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
-  flunk "Unimplemented"
+  rating_list.split(", ").each do |r|
+    if uncheck
+      uncheck("ratings_#{r}")
+    else
+      check("ratings_#{r}")
+    end
+  end
 end
 
-Then /I should see all the movies/ do
+Then /I should see all the movies/ do |qtd|
   # Make sure that all the movies in the app are visible in the table
-  flunk "Unimplemented"
+  lines = page.all("table#movie tr").count
+
+  case qtd
+  when "none"
+    lines.should = "1"
+  when "all"
+    lines.should = "11"
+  end
 end
